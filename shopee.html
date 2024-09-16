@@ -31,7 +31,8 @@
         <button onclick="calcularShopee()">Calcular Preço</button>
 
         <h2>Resultados</h2>
-        <p id="preco">Preço com margem desejada: R$ 0,00</p>
+        <p id="preco_0">Preço com margem 0%: R$ 0,00</p>
+        <p id="preco_desejado">Preço com margem desejada: R$ 0,00</p>
     </div>
 
     <script src="scripts.js"></script>
@@ -67,9 +68,11 @@
                 return precoVenda;
             }
 
-            let precoVenda = calcularPrecoVenda(margem);
+            let precoVenda0 = calcularPrecoVenda(0);
+            let precoVendaDesejado = calcularPrecoVenda(margem);
 
-            document.getElementById('preco').innerText = 'Preço com margem de ' + margem.toFixed(2) + '%: R$ ' + precoVenda.toFixed(2);
+            document.getElementById('preco_0').innerText = 'Preço com margem 0%: R$ ' + precoVenda0.toFixed(2);
+            document.getElementById('preco_desejado').innerText = 'Preço com margem de ' + margem.toFixed(2) + '%: R$ ' + precoVendaDesejado.toFixed(2);
         }
     </script>
 </body>
