@@ -19,29 +19,47 @@
         <label for="custo">Custo do Produto:</label>
         <input type="number" id="custo" placeholder="Ex: 100" step="0.01"><br>
 
+        <label for="impostos">Impostos (%):</label>
+        <input type="number" id="impostos" placeholder="Ex: 15" step="0.01"><br>
+
+        <label for="embalagem">Custo de Embalagem (R$):</label>
+        <input type="number" id="embalagem" placeholder="Ex: 1.00" step="0.01"><br>
+
+        <label for="margem">Margem de Lucro (%):</label>
+        <input type="number" id="margem" placeholder="Ex: 10" step="0.01"><br>
+
         <button onclick="calcularShopee()">Calcular Preço</button>
 
         <h2>Resultados</h2>
-        <p id="preco_0">Preço com margem 0%: R$ 0,00</p>
-        <p id="preco_7">Preço com margem 7%: R$ 0,00</p>
-        <p id="preco_10">Preço com margem 10%: R$ 0,00</p>
-        <p id="preco_15">Preço com margem 15%: R$ 0,00</p>
+        <p id="preco">Preço com margem desejada: R$ 0,00</p>
     </div>
 
     <script src="scripts.js"></script>
     <script>
         function calcularShopee() {
             let custo = parseFloat(document.getElementById('custo').value);
+            let impostos = parseFloat(document.getElementById('impostos').value) || 15;
+            let embalagem = parseFloat(document.getElementById('embalagem').value) || 1.00;
+            let margem = parseFloat(document.getElementById('margem').value) || 10;
+            let comissao = 20; // 20% de comissão da plataforma
+            let taxaFixa = 4; // Taxa fixa padrão da Shopee
 
             if (isNaN(custo) || custo <= 0) {
                 alert("Por favor, insira um valor de custo válido.");
                 return;
             }
-
-            let impostos = 15; // 10% de impostos
-            let comissao = 20; // 20% de comissão da plataforma
-            let taxaFixa = 4; // Taxa fixa padrão da Shopee
-            let embalagem = 1.00; // Custo fixo de embalagem de R$ 1,50
+            if (isNaN(impostos) || impostos < 0) {
+                alert("Por favor, insira um valor de impostos válido.");
+                return;
+            }
+            if (isNaN(embalagem) || embalagem < 0) {
+                alert("Por favor, insira um valor de embalagem válido.");
+                return;
+            }
+            if (isNaN(margem) || margem < 0) {
+                alert("Por favor, insira uma margem de lucro válida.");
+                return;
+            }
 
             function calcularPrecoVenda(margemContribuicaoDesejada) {
                 let margemDecimal = margemContribuicaoDesejada / 100;
@@ -49,15 +67,9 @@
                 return precoVenda;
             }
 
-            let precoVenda0 = calcularPrecoVenda(0);
-            let precoVenda7 = calcularPrecoVenda(7); // Cálculo para margem de 7%
-            let precoVenda10 = calcularPrecoVenda(10);
-            let precoVenda15 = calcularPrecoVenda(15);
+            let precoVenda = calcularPrecoVenda(margem);
 
-            document.getElementById('preco_0').innerText = 'Preço com margem 0%: R$ ' + precoVenda0.toFixed(2);
-            document.getElementById('preco_7').innerText = 'Preço com margem 7%: R$ ' + precoVenda7.toFixed(2);
-            document.getElementById('preco_10').innerText = 'Preço com margem 10%: R$ ' + precoVenda10.toFixed(2);
-            document.getElementById('preco_15').innerText = 'Preço com margem 15%: R$ ' + precoVenda15.toFixed(2);
+            document.getElementById('preco').innerText = 'Preço com margem de ' + margem.toFixed(2) + '%: R$ ' + precoVenda.toFixed(2);
         }
     </script>
 </body>
